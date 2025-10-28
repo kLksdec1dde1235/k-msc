@@ -917,7 +917,6 @@ setTimeout(()=>{
       career: [
         "언론사 활동에 필요한 토탈 임대 서비스 가능",
         "국내 최저가 렌탈 요금 보상제 혜택",
-        "취재활동시 장비 파손 50% 수리비 지원",
         "취재활동에 꼭 필요한 365 / 24시간 운영"
         
       ]
@@ -936,7 +935,6 @@ setTimeout(()=>{
       career: [
         "사진, 영상, 편집활동에 필요한 토탈 임대 서비스 가능",
         "국내 최저가 렌탈 요금 보상제 혜택",
-        "임대이후 장비 파손 50% 수리비 지원",
         "장비활용에 꼭 필요한 365 / 24시간 운영"
       ]
     }
@@ -1698,19 +1696,21 @@ btns2.forEach(btn => {
       <input type="hidden" name="entry.820371290" id="income">
     </div>
 
-     <!-- 03. 채무금액 -->
-    <div class="form-group">
-      <p class="form-label">03. 렌탈 서비스 품목</p>
-      <div class="button-group" data-type="radio" data-name="렌탈 서비스 품목">
-        <input type="button"  class="option-btn intro_select"  data-value="디지털 카메라(캠코더), 렌즈" value="디지털 카메라(캠코더), 렌즈">
-        <input type="button"  class="option-btn intro_select"  data-value="노트북 및 편집기(PC)" value="노트북 및 편집기(PC)">
-        <input type="button"  class="option-btn intro_select"  data-value="드론" value="드론">
-        <input type="button"  class="option-btn intro_select"  data-value="온라인 생중계 시스템(인력 매칭)" value="온라인 생중계 시스템(인력 매칭)">
-          
-      </div>
-      <input type="hidden" name="entry.1263415590" id="debt">
-    </div>
+    
+  <!-- 03. 렌탈 서비스 품목 (다중 선택으로 변경) -->
+<div class="form-group">
+  <p class="form-label">03. 렌탈 서비스 품목 <small>[다중선택 가능]</small></p>
+  <div class="button-group" data-type="checkbox" data-name="렌탈 서비스 품목">
+    <input type="button" class="option-btn rent_multi" data-value="디지털 카메라(캠코더), 렌즈" value="디지털 카메라(캠코더), 렌즈">
+    <input type="button" class="option-btn rent_multi" data-value="노트북 및 편집기(PC)" value="노트북 및 편집기(PC)">
+    <input type="button" class="option-btn rent_multi" data-value="드론" value="드론">
+    <input type="button" class="option-btn rent_multi" data-value="온라인 생중계 시스템(인력 매칭)" value="온라인 생중계 시스템(인력 매칭)">
+  </div>
+  <input type="hidden" name="entry.1263415590" id="debt">
+</div>
 
+
+    
 
 
     <!-- 04. 부양가족수 -->
@@ -1828,6 +1828,7 @@ btns2.forEach(btn => {
   document.addEventListener("DOMContentLoaded", function () {
     bindRadioToHidden(".intro_select1", "job_style");
     bindRadioToHidden(".intro_select2", "income");
+    // bindCheckboxToHidden(".rent_multi", "debt");
     bindRadioToHidden(".intro_select",  "debt");
     bindRadioToHidden(".intro_select3", "family");
     bindRadioToHidden(".intro_select4", "loan_3month");
@@ -1876,6 +1877,30 @@ btns2.forEach(btn => {
   });
 </script>
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".rent_multi");
+    const hiddenInput = document.getElementById("debt");
+
+    if (!checkboxes.length || !hiddenInput) return;
+
+    checkboxes.forEach(function (button) {
+      button.addEventListener("click", function () {
+        // active → selected 클래스로 토글
+        button.classList.toggle("selected");
+
+        // 선택된 버튼의 data-value 수집
+        const selectedValues = Array.from(checkboxes)
+          .filter(btn => btn.classList.contains("selected"))
+          .map(btn => btn.getAttribute("data-value"));
+
+        // hidden input에 반영
+        hiddenInput.value = selectedValues.join(", ");
+      });
+    });
+  });
+</script>
 
 
 
